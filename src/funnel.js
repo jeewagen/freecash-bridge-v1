@@ -29,6 +29,16 @@ export class FunnelApp {
     return `${minutes}:${seconds}`;
   }
 
+  resetScrollPosition() {
+    if (typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent)) {
+      return;
+    }
+
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      window.scrollTo(0, 0);
+    }
+  }
+
   goTo(screenId) {
     this.clearTimers();
     this.currentScreen = screenId;
@@ -77,11 +87,15 @@ export class FunnelApp {
   startCountdown() {
     const countdownNode = this.container.querySelector('[data-countdown]');
     const ctaNode = this.container.querySelector('[data-install-cta]');
+    const secondaryCtaNode = this.container.querySelector('[data-install-cta-secondary]');
 
     let remaining = COUNTDOWN_START_SECONDS;
 
     countdownNode.textContent = this.formatCountdown(remaining);
     ctaNode.setAttribute('href', CTA_URL);
+    if (secondaryCtaNode) {
+      secondaryCtaNode.setAttribute('href', CTA_URL);
+    }
 
     const intervalId = setInterval(() => {
       if (remaining === 0) {
@@ -146,6 +160,7 @@ export class FunnelApp {
       </div>
     `;
 
+    this.resetScrollPosition();
     this.bindCurrentScreen();
   }
 }

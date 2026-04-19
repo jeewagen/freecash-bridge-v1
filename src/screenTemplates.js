@@ -279,7 +279,7 @@ export const screenTemplates = {
               </div>
             </div>
             <div class="mt-8 -mx-1">
-              <a data-amber-glow href="#" class="w-full h-14 bg-[#f5a623] text-[#3d2300] font-semibold rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center shadow-lg no-underline">
+              <a data-install-cta-secondary data-amber-glow href="#" class="w-full h-14 bg-[#f5a623] text-[#3d2300] font-semibold rounded-xl hover:opacity-90 transition-all active:scale-95 flex items-center justify-center shadow-lg no-underline">
                 <span class="text-lg leading-none pt-1">Claim My Bonus Now</span>
               </a>
             </div>

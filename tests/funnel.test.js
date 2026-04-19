@@ -85,6 +85,27 @@ describe('app bootstrap', () => {
     expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
   });
 
+  test('screen transitions reset the page scroll to the top', async () => {
+    vi.useFakeTimers();
+    document.body.innerHTML = '<div id="app"></div>';
+    const userAgentSpy = vi.spyOn(window.navigator, 'userAgent', 'get').mockReturnValue('Mozilla/5.0');
+    const scrollToSpy = vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+    const { mountApp } = await import('../src/main.js');
+
+    mountApp(document.getElementById('app'));
+    scrollToSpy.mockClear();
+
+    document.querySelector('[data-age-option="21-plus"]').click();
+    expect(scrollToSpy).toHaveBeenCalledWith(0, 0);
+
+    scrollToSpy.mockClear();
+    vi.advanceTimersByTime(3200);
+    expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
+    expect(scrollToSpy).toHaveBeenCalledWith(0, 0);
+
+    userAgentSpy.mockRestore();
+  });
+
   test('page 2 uses the tightened review copy and removes the step pill', async () => {
     const { screenTemplates } = await import('../src/screenTemplates.js');
 
@@ -107,7 +128,8 @@ describe('app bootstrap', () => {
     expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
     expect(document.querySelector('[data-countdown]').textContent).toBe('14:59');
     expect(document.body.textContent).toContain('YOUR BONUS RESERVED FOR');
-    expect(document.querySelector('[data-install-cta]').getAttribute('href')).toBe('https://example.com/freecash-offer');
+    expect(document.querySelector('[data-install-cta]').getAttribute('href')).toBe('https://trk.dailyearndrop.com/cf/click');
+    expect(document.querySelector('[data-install-cta-secondary]').getAttribute('href')).toBe('https://trk.dailyearndrop.com/cf/click');
 
     vi.advanceTimersByTime(1000);
     expect(document.querySelector('[data-countdown]').textContent).toBe('14:58');
@@ -200,8 +222,9 @@ describe('app bootstrap', () => {
     vi.advanceTimersByTime(3200);
 
     const links = [...document.querySelectorAll('a[href^="http"]')];
-    expect(links).toHaveLength(1);
-    expect(links[0].matches('[data-install-cta]')).toBe(true);
+    expect(links).toHaveLength(2);
+    expect(links.some((link) => link.matches('[data-install-cta]'))).toBe(true);
+    expect(links.some((link) => link.matches('[data-install-cta-secondary]'))).toBe(true);
   });
 
   test('page 1 uses the refreshed earnings layout and live footer copy', async () => {

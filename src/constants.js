@@ -1,4 +1,4 @@
-export const CTA_URL = 'https://example.com/freecash-offer';
+export const CTA_URL = 'https://trk.dailyearndrop.com/cf/click';
 export const CHECKLIST_DELAY_MS = 700;
 export const PROGRESS_DURATION_MS = 2500;
 export const PAGE2_CHECKMARK_PAUSE_MS = 320;
