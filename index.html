@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FreeCash Funnel</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'secondary-fixed-dim': '#bfc9bd',
+              'on-primary': '#003919',
+              'on-tertiary': '#452b00',
+              'tertiary-fixed-dim': '#ffb955',
+              'surface-tint': '#00e478',
+              'secondary-container': '#424b42',
+              'surface-dim': '#101411',
+              'on-secondary': '#29332a',
+              surface: '#101411',
+              'on-tertiary-fixed-variant': '#633f00',
+              'on-surface-variant': '#bacbba',
+              error: '#ffb4ab',
+              'on-primary-fixed-variant': '#005227',
+              primary: '#85ffa7',
+              'primary-fixed-dim': '#00e478',
+              'surface-container-high': '#272b27',
+              'outline-variant': '#3b4a3d',
+              'surface-container': '#1c211d',
+              tertiary: '#ffe1bf',
+              background: '#101411',
+              'on-primary-container': '#006230',
+              secondary: '#bfc9bd',
+              'surface-container-low': '#181d19',
+              'inverse-primary': '#006d36',
+              'on-error': '#690005',
+              'surface-variant': '#323632',
+              'surface-bright': '#363a36',
+              'on-secondary-fixed': '#151e16',
+              'on-secondary-container': '#b1bbaf',
+              'surface-container-lowest': '#0b0f0c',
+              'on-primary-fixed': '#00210c',
+              'primary-container': '#00e87a',
+              'inverse-on-surface': '#2d312e',
+              'on-background': '#e0e3de',
+              'secondary-fixed': '#dbe5d9',
+              'primary-fixed': '#61ff98',
+              'surface-container-highest': '#323632',
+              'on-surface': '#e0e3de',
+              'tertiary-fixed': '#ffddb4',
+              'on-tertiary-fixed': '#291800',
+              'inverse-surface': '#e0e3de',
+              'on-tertiary-container': '#764c00',
+              'error-container': '#93000a',
+              outline: '#849585',
+              'on-error-container': '#ffdad6',
+              'on-secondary-fixed-variant': '#404940',
+              'tertiary-container': '#ffbe63'
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem'
+            },
+            fontFamily: {
+              headline: ['Space Grotesk'],
+              body: ['Inter'],
+              label: ['Inter']
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles/app.css" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
