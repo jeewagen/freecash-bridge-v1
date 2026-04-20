@@ -128,8 +128,12 @@ describe('app bootstrap', () => {
     expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
     expect(document.querySelector('[data-countdown]').textContent).toBe('14:59');
     expect(document.body.textContent).toContain('YOUR BONUS RESERVED FOR');
-    expect(document.querySelector('[data-install-cta]').getAttribute('href')).toBe('https://trk.dailyearndrop.com/cf/click');
-    expect(document.querySelector('[data-install-cta-secondary]').getAttribute('href')).toBe('https://trk.dailyearndrop.com/cf/click');
+    expect(document.querySelector('[data-install-cta]').getAttribute('href')).toBe(
+      'https://trksy.org/aff_c?offer_id=3531&aff_id=1604&source={cf_click_id}'
+    );
+    expect(document.querySelector('[data-install-cta-secondary]').getAttribute('href')).toBe(
+      'https://trksy.org/aff_c?offer_id=3531&aff_id=1604&source={cf_click_id}'
+    );
 
     vi.advanceTimersByTime(1000);
     expect(document.querySelector('[data-countdown]').textContent).toBe('14:58');
