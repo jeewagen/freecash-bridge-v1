@@ -140,6 +140,7 @@ describe('app bootstrap', () => {
 
     expect(screenTemplates.page3).toContain('Claim My $20 - Start Now for Free');
     expect(screenTemplates.page3).toContain('data-primary-glow');
+    expect(screenTemplates.page3).toContain(`onclick="fbq('track', 'InitiateCheckout')"`);
     expect(screenTemplates.page3).toContain('w-full space-y-4 mb-0');
     expect(screenTemplates.page3).toContain('w-full h-16 bg-[#00e87a]');
     expect(screenTemplates.page3).not.toContain('Claim My $20 — Download Free');
