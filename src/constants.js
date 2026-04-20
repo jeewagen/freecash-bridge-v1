@@ -1,4 +1,4 @@
-export const CTA_URL = 'https://trksy.org/aff_c?offer_id=3531&aff_id=1604&source={cf_click_id}';
+export const CTA_URL = 'https://trk.dailyearndrop.com/cf/click';
 export const CHECKLIST_DELAY_MS = 700;
 export const PROGRESS_DURATION_MS = 2500;
 export const PAGE2_CHECKMARK_PAUSE_MS = 320;
