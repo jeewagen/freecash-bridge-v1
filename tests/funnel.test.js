@@ -6,6 +6,9 @@ beforeEach(() => {
   vi.resetModules();
   vi.useRealTimers();
   document.body.innerHTML = '';
+  delete window.posthog;
+  delete window.fbq;
+  delete globalThis.fbq;
 });
 
 afterEach(() => {
@@ -133,6 +136,59 @@ describe('app bootstrap', () => {
 
     vi.advanceTimersByTime(1000);
     expect(document.querySelector('[data-countdown]').textContent).toBe('14:58');
+  });
+
+  test('tracks the core funnel steps in PostHog', async () => {
+    vi.useFakeTimers();
+    document.body.innerHTML = '<div id="app"></div>';
+    window.posthog = { capture: vi.fn() };
+    window.fbq = vi.fn();
+    globalThis.fbq = window.fbq;
+    const { mountApp } = await import('../src/main.js');
+
+    mountApp(document.getElementById('app'));
+
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel page viewed', {
+      screen: 'page1',
+    });
+
+    window.posthog.capture.mockClear();
+    document.querySelector('[data-age-option="21-plus"]').click();
+
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel age selected', {
+      screen: 'page1',
+      age_option: '21-plus',
+    });
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel page viewed', {
+      screen: 'page2',
+    });
+
+    window.posthog.capture.mockClear();
+    vi.advanceTimersByTime(1600);
+
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel page2 completed', {
+      screen: 'page2',
+    });
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel page viewed', {
+      screen: 'page3',
+    });
+
+    window.posthog.capture.mockClear();
+    const primaryCta = document.querySelector('[data-install-cta]');
+    const secondaryCta = document.querySelector('[data-install-cta-secondary]');
+    primaryCta.onclick = null;
+    secondaryCta.onclick = null;
+    primaryCta.dispatchEvent(new Event('click', { bubbles: true }));
+    secondaryCta.dispatchEvent(new Event('click', { bubbles: true }));
+
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel cta clicked', {
+      screen: 'page3',
+      button_position: 'primary',
+    });
+    expect(window.posthog.capture).toHaveBeenCalledWith('funnel cta clicked', {
+      screen: 'page3',
+      button_position: 'secondary',
+    });
   });
 
   test('page 3 CTA uses the updated copy with the shared soft glow treatment', async () => {

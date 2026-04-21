@@ -29,6 +29,34 @@ export class FunnelApp {
     return `${minutes}:${seconds}`;
   }
 
+  getPosthog() {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    if (!window.posthog || typeof window.posthog.capture !== 'function') {
+      return null;
+    }
+
+    return window.posthog;
+  }
+
+  trackEvent(eventName, properties = {}) {
+    const posthog = this.getPosthog();
+
+    if (!posthog) {
+      return;
+    }
+
+    posthog.capture(eventName, properties);
+  }
+
+  trackScreenView(screenId) {
+    this.trackEvent('funnel page viewed', {
+      screen: screenId,
+    });
+  }
+
   resetScrollPosition() {
     if (typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent)) {
       return;
@@ -78,6 +106,9 @@ export class FunnelApp {
     }, PROGRESS_DURATION_MS + PAGE2_CHECKMARK_PAUSE_MS);
 
     const progressCompleteTimer = setTimeout(() => {
+      this.trackEvent('funnel page2 completed', {
+        screen: 'page2',
+      });
       this.goTo('page3');
     }, PROGRESS_DURATION_MS + PAGE2_COMPLETION_HOLD_MS);
 
@@ -137,7 +168,13 @@ export class FunnelApp {
   bindCurrentScreen() {
     if (this.currentScreen === 'page1') {
       this.container.querySelectorAll('[data-age-option]').forEach((button) => {
-        button.addEventListener('click', () => this.goTo('page2'));
+        button.addEventListener('click', () => {
+          this.trackEvent('funnel age selected', {
+            screen: 'page1',
+            age_option: button.getAttribute('data-age-option'),
+          });
+          this.goTo('page2');
+        });
       });
       this.startLiveEarnersTicker();
       return;
@@ -150,6 +187,26 @@ export class FunnelApp {
 
     if (this.currentScreen === 'page3') {
       this.startCountdown();
+      const primaryCta = this.container.querySelector('[data-install-cta]');
+      const secondaryCta = this.container.querySelector('[data-install-cta-secondary]');
+
+      if (primaryCta) {
+        primaryCta.addEventListener('click', () => {
+          this.trackEvent('funnel cta clicked', {
+            screen: 'page3',
+            button_position: 'primary',
+          });
+        });
+      }
+
+      if (secondaryCta) {
+        secondaryCta.addEventListener('click', () => {
+          this.trackEvent('funnel cta clicked', {
+            screen: 'page3',
+            button_position: 'secondary',
+          });
+        });
+      }
     }
   }
 
@@ -162,5 +219,6 @@ export class FunnelApp {
 
     this.resetScrollPosition();
     this.bindCurrentScreen();
+    this.trackScreenView(this.currentScreen);
   }
 }
