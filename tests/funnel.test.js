@@ -57,31 +57,31 @@ describe('app bootstrap', () => {
     expect(document.querySelectorAll('[data-check-item].is-visible')).toHaveLength(0);
     expect(document.querySelector('[data-progress-fill]').style.width).toBe('0%');
 
-    vi.advanceTimersByTime(700);
+    vi.advanceTimersByTime(350);
     expect(document.querySelectorAll('[data-check-item].is-visible')).toHaveLength(1);
     expect(document.querySelectorAll('[data-check-item].is-complete')).toHaveLength(1);
 
-    vi.advanceTimersByTime(1400);
+    vi.advanceTimersByTime(700);
     expect(document.querySelectorAll('[data-check-item].is-visible')).toHaveLength(3);
     expect(document.querySelectorAll('[data-check-item].is-complete')).toHaveLength(3);
     expect(document.querySelector('[data-progress-fill]').style.width).toBe('100%');
     expect(document.querySelector('[data-screen-id="page2"]').classList.contains('is-completing')).toBe(false);
 
-    vi.advanceTimersByTime(400);
+    vi.advanceTimersByTime(200);
     expect(document.querySelector('[data-progress-fill]').style.width).toBe('100%');
     expect(document.querySelector('[data-screen-id="page2"]').classList.contains('is-completing')).toBe(true);
     expect(document.querySelector('[data-loading-arc]').classList.contains('is-complete')).toBe(true);
     expect(document.querySelector('[data-loading-check]').classList.contains('is-visible')).toBe(true);
 
-    vi.advanceTimersByTime(250);
+    vi.advanceTimersByTime(125);
     expect(document.querySelector('[data-screen-id="page2"]')).not.toBeNull();
     expect(document.querySelector('[data-screen-id="page2"]').classList.contains('is-exiting')).toBe(false);
 
-    vi.advanceTimersByTime(100);
+    vi.advanceTimersByTime(50);
     expect(document.querySelector('[data-screen-id="page2"]')).not.toBeNull();
     expect(document.querySelector('[data-screen-id="page2"]').classList.contains('is-exiting')).toBe(true);
 
-    vi.advanceTimersByTime(300);
+    vi.advanceTimersByTime(150);
     expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
   });
 
@@ -99,7 +99,7 @@ describe('app bootstrap', () => {
     expect(scrollToSpy).toHaveBeenCalledWith(0, 0);
 
     scrollToSpy.mockClear();
-    vi.advanceTimersByTime(3200);
+    vi.advanceTimersByTime(1600);
     expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
     expect(scrollToSpy).toHaveBeenCalledWith(0, 0);
 
@@ -123,7 +123,7 @@ describe('app bootstrap', () => {
 
     mountApp(document.getElementById('app'));
     document.querySelector('[data-age-option="21-plus"]').click();
-    vi.advanceTimersByTime(3200);
+    vi.advanceTimersByTime(1560);
 
     expect(document.querySelector('[data-screen-id="page3"]')).not.toBeNull();
     expect(document.querySelector('[data-countdown]').textContent).toBe('14:59');

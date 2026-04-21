@@ -135,7 +135,7 @@ h3 {
 [data-progress-fill] {
   width: 0%;
   transition:
-    width 2500ms linear,
+    width 1250ms linear,
     box-shadow 220ms ease,
     opacity 220ms ease;
 }
